@@ -5,8 +5,8 @@ import datetime
 import os
 
 UTC_Now = datetime.datetime.now()
-date = UTC_Now.strftime( "%Y-%m-%d" )
-time = UTC_Now.strftime( "%H:%M:%S" )
+date = UTC_Now.strftime("%Y-%m-%d")
+time = UTC_Now.strftime("%H:%M:%S")
 path = os.getcwd()
 
 flags = '''
