@@ -37,15 +37,6 @@ void configure_serial()
 /**
  *
  */
-void setup()
-{
-    configure_serial();
-    configure_i2c();
-}
-
-/**
- *
- */
 void print_address(uint8_t address)
 {
     Serial.print("0x");
@@ -59,7 +50,7 @@ void print_address(uint8_t address)
 /**
  *
  */
-void loop()
+void i2c_scanner()
 {
     uint8_t device_count = 0;
 
@@ -84,5 +75,22 @@ void loop()
     Serial.print("Number of I2C devices found: ");
     Serial.print(device_count);
     Serial.println("\n");
+}
+
+/**
+ *
+ */
+void setup()
+{
+    configure_serial();
+    configure_i2c();
+}
+
+/**
+ *
+ */
+void loop()
+{
+    i2c_scanner();
     delay(5000);
 }
