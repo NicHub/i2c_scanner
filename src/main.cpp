@@ -22,16 +22,22 @@ void configure_i2c()
 void configure_serial()
 {
     Serial.begin(BAUD_RATE);
+
+    Serial.println("\n\n##########################");
     Serial.println(F("\n\n\n# I2C SCANNER\n"));
     Serial.print(F("FILE NAME:        "));
     Serial.println(__FILE__);
-    Serial.print(F("PATH:             "));
-    Serial.println(PATH);
+    Serial.print(F("PROJECT PATH:     "));
+    Serial.println(PROJECT_PATH);
     Serial.print(F("COMPILATION DATE: "));
     Serial.println(COMPILATION_DATE);
     Serial.print(F("COMPILATION TIME: "));
     Serial.println(COMPILATION_TIME);
-    Serial.println("");
+    Serial.print(F("PYTHON VERSION:   "));
+    Serial.println(PYTHON_VERSION);
+    Serial.print(F("PYTHON PATH:      "));
+    Serial.println(PYTHON_PATH);
+    Serial.println("##########################\n\n");
 }
 
 /**

@@ -1,18 +1,27 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+"""
+get_build_flags.py
+"""
 
 import datetime
 import os
+import sys
 
-UTC_Now = datetime.datetime.now()
-date = UTC_Now.strftime("%Y-%m-%d")
-time = UTC_Now.strftime("%H:%M:%S")
-path = os.getcwd()
-
-flags = '''
-    -D COMPILATION_DATE=\\"%s\\"
-    -D COMPILATION_TIME=\\"%s\\"
-    -D PATH=\\"%s\\"
-''' % (date, time, path)
+utc_now = datetime.datetime.now()
+compilation_date = utc_now.strftime("%Y-%m-%d")
+compilation_time = utc_now.strftime("%H:%M:%S")
+project_path = os.getcwd()
+python_version = (
+    f"{sys.version_info.major}"
+    f".{sys.version_info.minor}"
+    f".{sys.version_info.micro}"
+)
+python_path = os.path.realpath(sys.executable)
+flags = f"""
+    -D COMPILATION_DATE=\\"{compilation_date}\\"
+    -D COMPILATION_TIME=\\"{compilation_time}\\"
+    -D PROJECT_PATH=\\"{project_path}\\"
+    -D PYTHON_VERSION=\\"{python_version}\\"
+    -D PYTHON_PATH=\\"{python_path}\\"
+"""
 
 print(flags)
