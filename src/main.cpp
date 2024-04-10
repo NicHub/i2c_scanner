@@ -1,7 +1,8 @@
 /**
  * i2c_scanner
  *
- * This is the PlatformIO version of the I²C scanner (i2c_scanner.ino) which is provided in the Arduino IDE examples.
+ * This is the PlatformIO version of the I²C scanner (i2c_scanner.ino) which
+ * is provided in the Arduino IDE examples.
  *
  */
 
@@ -24,7 +25,7 @@ void configure_serial()
     Serial.begin(BAUD_RATE);
 
     Serial.println("\n\n##########################");
-    Serial.println(F("\n\n\n# I2C SCANNER\n"));
+    Serial.println(F("PROJECT NAME:     I2C SCANNER"));
     Serial.print(F("FILE NAME:        "));
     Serial.println(__FILE__);
     Serial.print(F("PROJECT PATH:     "));
@@ -90,6 +91,7 @@ void setup()
 {
     configure_serial();
     configure_i2c();
+    i2c_scanner();
 }
 
 /**
@@ -97,6 +99,5 @@ void setup()
  */
 void loop()
 {
-    i2c_scanner();
-    delay(5000);
+    yield();
 }
