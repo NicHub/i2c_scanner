@@ -23,6 +23,8 @@ void configure_i2c()
 void configure_serial()
 {
     Serial.begin(BAUD_RATE);
+    // while (!Serial.available())
+    //     yield();
 
     Serial.println("\n\n##########################");
     Serial.println(F("PROJECT NAME:     I2C SCANNER"));
