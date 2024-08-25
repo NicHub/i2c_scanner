@@ -4,6 +4,10 @@
  * This is the PlatformIO version of the I²C scanner (i2c_scanner.ino) which
  * is provided in the Arduino IDE examples.
  *
+ * - On macOS the original file can be found here:
+ *   $HOME/.platformio/packages/framework-arduino-avr/libraries/Wire/examples/i2c_scanner/i2c_scanner.ino
+ *   $HOME/Library/Arduino15/packages/arduino/hardware/avr/1.8.6/libraries/Wire/examples/i2c_scanner/i2c_scanner.ino
+ *
  */
 
 #include <Arduino.h>
