@@ -26,8 +26,8 @@ void configure_i2c()
 void configure_serial()
 {
     Serial.begin(BAUD_RATE);
-    // while (!Serial.available())
-    //     yield();
+    while (!Serial.available())
+        yield();
 
     Serial.println("\n\n##########################");
     Serial.println(F("PROJECT NAME:     I2C SCANNER"));
@@ -92,10 +92,10 @@ void setup()
 {
     configure_serial();
     configure_i2c();
+    i2c_scanner();
 }
 
 void loop()
 {
-    i2c_scanner();
-    delay(1000);
+    yield();
 }
