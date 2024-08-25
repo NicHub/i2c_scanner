@@ -11,19 +11,18 @@
  */
 
 #include <Arduino.h>
+#ifdef NRF52840_XXAA
+#pragma message("NRF52840_XXAA IS DEFINED")
+#include "utilities.h"
+#include <SPI.h>
+#endif
 #include <Wire.h>
 
-/**
- *
- */
 void configure_i2c()
 {
     Wire.begin();
 }
 
-/**
- *
- */
 void configure_serial()
 {
     Serial.begin(BAUD_RATE);
@@ -47,9 +46,6 @@ void configure_serial()
     Serial.println("##########################\n\n");
 }
 
-/**
- *
- */
 void print_address(uint8_t address)
 {
     Serial.print("0x");
@@ -60,11 +56,13 @@ void print_address(uint8_t address)
     Serial.println(address, HEX);
 }
 
-/**
- *
- */
 void i2c_scanner()
 {
+    static uint32_t cnt = 0;
+    ++cnt;
+    Serial.print(F("# "));
+    Serial.println(cnt);
+
     uint8_t device_count = 0;
 
     Serial.println("Scanning I2C bus...");
@@ -90,20 +88,14 @@ void i2c_scanner()
     Serial.println("\n");
 }
 
-/**
- *
- */
 void setup()
 {
     configure_serial();
     configure_i2c();
-    i2c_scanner();
 }
 
-/**
- *
- */
 void loop()
 {
-    yield();
+    i2c_scanner();
+    delay(1000);
 }
