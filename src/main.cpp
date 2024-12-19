@@ -18,54 +18,39 @@
 #endif
 #include <Wire.h>
 
-void configure_i2c()
+void printAddress(
+    const __FlashStringHelper *prefix,
+    uint8_t address,
+    const __FlashStringHelper *suffix)
 {
-    Wire.begin();
-}
-
-void configure_serial()
-{
-    Serial.begin(BAUD_RATE);
-    while (!Serial.available())
-        yield();
-
-    Serial.println("\n\n##########################");
-    Serial.println(F("PROJECT NAME:     I2C SCANNER"));
-    Serial.print(F("FILE NAME:        "));
-    Serial.println(__FILE__);
-    Serial.print(F("PROJECT PATH:     "));
-    Serial.println(PROJECT_PATH);
-    Serial.print(F("COMPILATION DATE: "));
-    Serial.println(COMPILATION_DATE);
-    Serial.print(F("COMPILATION TIME: "));
-    Serial.println(COMPILATION_TIME);
-    Serial.print(F("PYTHON VERSION:   "));
-    Serial.println(PYTHON_VERSION);
-    Serial.print(F("PYTHON PATH:      "));
-    Serial.println(PYTHON_PATH);
-    Serial.println("##########################\n\n");
-}
-
-void print_address(uint8_t address)
-{
+    Serial.print(prefix);
     Serial.print("0x");
     if (address < 16)
-    {
         Serial.print("0");
-    }
-    Serial.println(address, HEX);
+    Serial.print(address, HEX);
+    Serial.print(suffix);
 }
 
-void i2c_scanner()
+void readWhoIAmRegister(uint8_t address)
+{
+    Wire.write(0x75);
+    Wire.endTransmission(false);
+    Wire.requestFrom(static_cast<int>(address), 1);
+    if (!Wire.available())
+        return;
+
+    uint8_t whoAmI = Wire.read();
+    printAddress(F("    Who am I register:           "), whoAmI, F("\n"));
+}
+
+void I2CScanner()
 {
     static uint32_t cnt = 0;
     ++cnt;
-    Serial.print(F("# "));
+    Serial.print(F("- - I²C scan count:              "));
     Serial.println(cnt);
 
     uint8_t device_count = 0;
-
-    Serial.println("Scanning I2C bus...");
 
     for (uint8_t address = 1; address < 127; ++address)
     {
@@ -74,28 +59,52 @@ void i2c_scanner()
 
         if (status == 0)
         {
-            print_address(address);
+            printAddress(F("  - I²C address:                 "), address, F("\n"));
+                readWhoIAmRegister(address);
             ++device_count;
         }
         else if (status == 4)
         {
-            Serial.print("Unknown error at address ");
-            print_address(address);
+            printAddress(F("  - Unknown error at address:    "), address, F("\n"));
         }
     }
-    Serial.print("Number of I2C devices found: ");
+    Serial.print(F("  - Number of I²C devices found: "));
     Serial.print(device_count);
-    Serial.println("\n");
+    Serial.println(F("\n"));
+}
+
+void setupI2C()
+{
+    Wire.begin();
+}
+
+void setupSerial()
+{
+    Serial.begin(BAUD_RATE);
+    while (!Serial.available())
+        yield();
+
+    Serial.println(F("\n\n# ##"));
+    Serial.println(F("# PROJECT NAME:     I²C SCANNER"));
+    Serial.print(F("# FILE NAME:        "));
+    Serial.println(__FILE__);
+    Serial.print(F("# PROJECT PATH:     "));
+    Serial.println(PROJECT_PATH);
+    Serial.print(F("# COMPILATION DATE: "));
+    Serial.println(COMPILATION_DATE);
+    Serial.print(F("# COMPILATION TIME: "));
+    Serial.println(COMPILATION_TIME);
+    Serial.println(F("# #\n\n"));
 }
 
 void setup()
 {
-    configure_serial();
-    configure_i2c();
-    i2c_scanner();
+    setupSerial();
+    setupI2C();
 }
 
 void loop()
 {
-    yield();
+    I2CScanner();
+    delay(3000);
 }
